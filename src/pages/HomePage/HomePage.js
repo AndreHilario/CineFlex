@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
 
@@ -13,9 +14,13 @@ export default function HomePage() {
                 setMovies(response.data);
             })
             .catch((err) => {
-                console.error("Ocorreu um erro!" + err);
+                console.log(err.response.data);
             });
     }, []);
+
+    if (movies.length === 0) {
+        return <div>Loading...</div>
+    }
 
     return (
         <PageContainer>
@@ -23,9 +28,11 @@ export default function HomePage() {
 
             <ListContainer>
                 {movies.map((m) => (
-                    <MovieContainer key={m.id}>
-                        <img src={m.posterURL} alt="poster" />
-                    </MovieContainer>
+                    <Link to={`/sessoes/${m.id}`} key={m.id}>
+                        <MovieContainer>
+                            <img src={m.posterURL} alt="posterMovie" />
+                        </MovieContainer>
+                    </Link>
                 ))}
             </ListContainer>
         </PageContainer>
