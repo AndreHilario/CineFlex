@@ -3,17 +3,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
-export default function SeatsPage() {
+export default function SeatsPage(props) {
 
     const { idSessao } = useParams();
+    const { name, document, arraySeats, setName, setDocument, setArraySeats, infoSession, infoDay, infoTime, setInfoSession, setInfoDay, setInfoTime } = props;
 
     const [seats, setSeats] = useState([]);
-    const [infoSession, setInfoSession] = useState([]);
-    const [infoTime, setInfoTime] = useState([]);
-    const [infoDay, setInfoDay] = useState([]);
-    const [arraySeats, setArraySeats] = useState([]);
-    const [name, setName] = useState("");
-    const [document, setDocument] = useState("");
     const [infosRequest, setInfosRequest] = useState([]);
 
     function selectSeat(id, index) {
@@ -38,7 +33,7 @@ export default function SeatsPage() {
     function sendRequest() {
 
         const allInfos = {
-            ids: [arraySeats.index + 1],
+            ids: [arraySeats.index],
             name: name,
             document: document
         }
@@ -172,8 +167,11 @@ const FormContainer = styled.div`
     align-items: flex-start;
     margin: 20px 0;
     font-size: 18px;
-    button {
+    a {
         align-self: center;
+        display: flex;
+        justify-content: center;
+        text-decoration: none;
     }
     input {
         width: calc(100vw - 60px);

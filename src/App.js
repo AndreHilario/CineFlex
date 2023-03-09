@@ -4,16 +4,45 @@ import HomePage from "./pages/HomePage/HomePage";
 import SeatsPage from "./pages/SeatsPage/SeatsPage";
 import SessionsPage from "./pages/SessionsPage/SessionsPage";
 import SuccessPage from "./pages/SuccessPage/SuccessPage";
+import { useState } from "react";
 
 export default function App() {
+
+    const [arraySeats, setArraySeats] = useState([]);
+    const [name, setName] = useState("");
+    const [document, setDocument] = useState("");
+    const [infoSession, setInfoSession] = useState([]);
+    const [infoTime, setInfoTime] = useState([]);
+    const [infoDay, setInfoDay] = useState([]);
+
     return (
         <BrowserRouter>
             <NavContainer>CINEFLEX</NavContainer>
             <Routes>
-                <Route path="/" element={<HomePage />}> </Route> 
-                <Route path="/assentos/:idSessao" element={<SeatsPage />}> </Route>
+                <Route path="/" element={<HomePage />}> </Route>
+                <Route path="/assentos/:idSessao" element={<SeatsPage
+                    name={name}
+                    setName={setName}
+                    document={document}
+                    setDocument={setDocument}
+                    arraySeats={arraySeats}
+                    setArraySeats={setArraySeats}
+                    infoSession={infoSession}
+                    setInfoSession={setInfoSession}
+                    infoTime={infoTime}
+                    setInfoTime={setInfoTime}
+                    infoDay={infoDay}
+                    setInfoDay={setInfoDay} />}>
+                </Route>
                 <Route path="/sessoes/:idFilme" element={<SessionsPage />}> </Route>
-                <Route path="/sucesso" element={<SuccessPage />}> </Route>
+                <Route path="/sucesso" element={<SuccessPage
+                    name={name}
+                    document={document}
+                    arraySeats={arraySeats}
+                    infoSession={infoSession}
+                    infoTime={infoTime}
+                    infoDay={infoDay} />}>
+                </Route>
             </Routes>
         </BrowserRouter>
     )

@@ -1,29 +1,32 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export default function SuccessPage() {
- 
+export default function SuccessPage(props) {
+
+    const { name, document, arraySeats, infoSession, infoTime, infoDay } = props;
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
 
             <TextContainer>
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{infoSession.title}</p>
+                <p>{infoDay.weekday} {infoTime.name}</p>
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                {/* {infosRequest.map((i) => <p>{i.ids}</p>)} */}
+                {arraySeats.map((i) => <p key={i.id}>Assento {i.index + 1}</p>)}
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Qualquer</p>
-                <p>CPF: 000.000.000-00</p>
+                <p>Nome: {name}</p>
+                <p>CPF: {document}</p>
             </TextContainer>
-
-            <button>Voltar para Home</button>
+            <Link to={"/"}>
+                <button>Voltar para Home</button>
+            </Link>
         </PageContainer >
     )
 }
