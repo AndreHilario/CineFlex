@@ -11,15 +11,21 @@ export default function SeatsPage() {
     const [infoSession, setInfoSession] = useState([]);
     const [infoTime, setInfoTime] = useState([]);
     const [infoDay, setInfoDay] = useState([]);
-    const [arraySeats, setArray] = useState([]);
+    const [arraySeats, setArraySeats] = useState([]);
     const [name, setName] = useState("");
     const [document, setDocument] = useState("");
-    const[infosRequest, setInfosRequest] = useState([]);
+    const [infosRequest, setInfosRequest] = useState([]);
 
     function selectSeat(id, index) {
+        const selectedSeat = arraySeats.find(seat => seat.id === id);
         if (seats[index].isAvailable) {
-            let newSeats = [...arraySeats, { "id": id }, { "index": index }];
-            setArray(newSeats);
+            if (selectedSeat) {
+                const newSeats = arraySeats.filter(seat => seat.id !== id);
+                setArraySeats(newSeats);
+            } else {
+                const newSeats = [...arraySeats, { "id": id, "index": index }];
+                setArraySeats(newSeats);
+            }
         } else {
             messageAlert();
         }
@@ -32,11 +38,11 @@ export default function SeatsPage() {
     function sendRequest() {
 
         const allInfos = {
-            ids: [arraySeats.index+1],
+            ids: [arraySeats.index + 1],
             name: name,
             document: document
         }
-    
+
         axios
             .post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", allInfos)
             .then((response) => {
@@ -66,20 +72,24 @@ export default function SeatsPage() {
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                {seats.map((seat, index) => (
-                    <SeatItem onClick={
-                        () => selectSeat(seat.id, index)
-                    }
-                        status={arraySeats.some(value => value.id === seat.id) ? 2 : seat.isAvailable ? 1 : 0}
-                        key={seat.id}>
-                        {seat.name}
-                    </SeatItem>
-                ))}
+                {seats.map((seat, index) => {
+                    const selectedSeat = arraySeats.find(selected => selected.id === seat.id);
+                    const status = selectedSeat ? 2 : seat.isAvailable ? 1 : 0;
+                    return (
+                        <SeatItem
+                            onClick={() => selectSeat(seat.id, index)}
+                            status={status}
+                            key={seat.id}
+                        >
+                            {seat.name}
+                        </SeatItem>
+                    );
+                })}
             </SeatsContainer>
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle status={0} />
+                    <CaptionCircle status={2} />
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
@@ -87,7 +97,7 @@ export default function SeatsPage() {
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle status={2} />
+                    <CaptionCircle status={0} />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
