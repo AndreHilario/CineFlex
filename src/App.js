@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage"
-import SeatsPage from "./pages/SeatsPage/SeatsPage"
-import SessionsPage from "./pages/SessionsPage/SessionsPage"
-import SuccessPage from "./pages/SuccessPage/SuccessPage"
+import HomePage from "./pages/HomePage/HomePage";
+import SeatsPage from "./pages/SeatsPage/SeatsPage";
+import SessionsPage from "./pages/SessionsPage/SessionsPage";
+import SuccessPage from "./pages/SuccessPage/SuccessPage";
 
 export default function App() {
     return (
@@ -11,9 +11,9 @@ export default function App() {
             <NavContainer>CINEFLEX</NavContainer>
             <Routes>
                 <Route path="/" element={<HomePage />}> </Route> 
-                <Route path="/assentos" element={<SeatsPage />}> </Route>
+                <Route path="/assentos/:idSessao" element={<SeatsPage />}> </Route>
                 <Route path="/sessoes/:idFilme" element={<SessionsPage />}> </Route>
-                <Route path="/sucesso"I element={<SuccessPage />}> </Route>
+                <Route path="/sucesso" element={<SuccessPage />}> </Route>
             </Routes>
         </BrowserRouter>
     )

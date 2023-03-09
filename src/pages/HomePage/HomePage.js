@@ -28,11 +28,12 @@ export default function HomePage() {
 
             <ListContainer>
                 {movies.map((m) => (
-                    <Link to={`/sessoes/${m.id}`} key={m.id}>
-                        <MovieContainer>
+                    <MovieContainer key={m.id}>
+                        <Link to={`/sessoes/${m.id}`}>
                             <img src={m.posterURL} alt="posterMovie" />
-                        </MovieContainer>
-                    </Link>
+                        </Link>
+                    </MovieContainer>
+
                 ))}
             </ListContainer>
         </PageContainer>

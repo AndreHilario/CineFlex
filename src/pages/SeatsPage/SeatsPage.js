@@ -1,57 +1,138 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
 
 export default function SeatsPage() {
+
+    const { idSessao } = useParams();
+
+    const [seats, setSeats] = useState([]);
+    const [infoSession, setInfoSession] = useState([]);
+    const [infoTime, setInfoTime] = useState([]);
+    const [infoDay, setInfoDay] = useState([]);
+    const [arraySeats, setArray] = useState([]);
+    const [name, setName] = useState("");
+    const [document, setDocument] = useState("");
+    const[infosRequest, setInfosRequest] = useState([]);
+
+    function selectSeat(id, index) {
+        if (seats[index].isAvailable) {
+            let newSeats = [...arraySeats, { "id": id }, { "index": index }];
+            setArray(newSeats);
+        } else {
+            messageAlert();
+        }
+    }
+
+    function messageAlert() {
+        alert("Esse assento não está disponível");
+    }
+
+    function sendRequest() {
+
+        const allInfos = {
+            ids: [arraySeats.index+1],
+            name: name,
+            document: document
+        }
+    
+        axios
+            .post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", allInfos)
+            .then((response) => {
+                setInfosRequest(response)
+            })
+            .catch((err) => {
+                console.log(err.response);
+            });
+    }
+
+    useEffect(() => {
+        axios
+            .get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`)
+            .then((response) => {
+                setSeats(response.data.seats);
+                setInfoSession(response.data.movie);
+                setInfoTime(response.data);
+                setInfoDay(response.data.day);
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+    }, []);
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
+                {seats.map((seat, index) => (
+                    <SeatItem onClick={
+                        () => selectSeat(seat.id, index)
+                    }
+                        status={arraySeats.some(value => value.id === seat.id) ? 2 : seat.isAvailable ? 1 : 0}
+                        key={seat.id}>
+                        {seat.name}
+                    </SeatItem>
+                ))}
             </SeatsContainer>
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status={0} />
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status={1} />
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status={2} />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
 
             <FormContainer>
                 Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+                <input placeholder="Digite seu nome..." onChange={e => setName(e.target.value)} value={name} />
 
                 CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                <input placeholder="Digite seu CPF..." onChange={event => setDocument(event.target.value)} value={document} />
 
-                <button>Reservar Assento(s)</button>
+                <Link to={"/sucesso"}>
+                    <button onClick={() => sendRequest()}>Reservar Assento(s)</button>
+                </Link>
             </FormContainer>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={infoSession.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
+                    <p>{infoSession.title}</p>
+                    <p>{infoDay.weekday} - {infoTime.name}</p>
                 </div>
             </FooterContainer>
 
         </PageContainer>
     )
 }
+
+
+const colorsAndBorders = [
+    {
+        color: "#FBE192",
+        border: "#F7C52B"
+    },
+    {
+        color: "#C3CFD9",
+        border: "#7B8B99"
+    },
+    {
+        color: "#1AAE9E",
+        border: "#0E7D71"
+    }
+];
 
 const PageContainer = styled.div`
     display: flex;
@@ -96,8 +177,8 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: ${(props) => colorsAndBorders[props.status].color};   
+    background-color: ${(props) => colorsAndBorders[props.status].color};
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -113,8 +194,8 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: ${(props) => colorsAndBorders[props.status].color};  
+    background-color: ${(props) => colorsAndBorders[props.status].color};  
     height: 25px;
     width: 25px;
     border-radius: 25px;

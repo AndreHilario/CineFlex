@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 
 
@@ -9,13 +9,13 @@ export default function SessionsPage() {
 
     const { idFilme } = useParams();
 
-    const [sessionAvaible, setSessionAvaible] = useState([]);
+    const [sessionAvailable, setSessionAvailable] = useState([]);
 
     useEffect(() => {
         axios
             .get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`)
             .then((response) => {
-                setSessionAvaible(response.data.days);
+                setSessionAvailable(response.data.days);
             })
             .catch((err) => {
                 console.log(err.response.data);
@@ -27,14 +27,19 @@ export default function SessionsPage() {
             Selecione o horário
             <div>
                 <SessionContainer>
-                    {sessionAvaible.map((s) => (
+                    {sessionAvailable.map((s) => (
                         <span key={s.id}>
                             {s.weekday} - {s.date}
                             <ButtonsContainer>
+
                                 {s.showtimes.map((showtime) => (
-                                    <button key={showtime.id}>{showtime.name}</button>
+                                    <Link key={showtime.id} to={`/assentos/${showtime.id}`}>
+                                        <button>{showtime.name}</button>
+                                    </Link>
                                 ))}
+
                             </ButtonsContainer>
+
                         </span>
                     ))}
                 </SessionContainer>
@@ -77,6 +82,7 @@ const ButtonsContainer = styled.div`
         margin-right: 20px;
     }
     a {
+        display: flex;
         text-decoration: none;
     }
 `

@@ -1,7 +1,7 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export default function SuccessPage() {
-
+ 
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
@@ -14,19 +14,17 @@ export default function SuccessPage() {
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {/* {infosRequest.map((i) => <p>{i.ids}</p>)} */}
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: Qualquer</p>
+                <p>CPF: 000.000.000-00</p>
             </TextContainer>
 
             <button>Voltar para Home</button>
-        </PageContainer>
+        </PageContainer >
     )
 }
 
