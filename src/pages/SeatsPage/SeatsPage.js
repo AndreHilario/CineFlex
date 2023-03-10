@@ -9,7 +9,6 @@ export default function SeatsPage(props) {
     const { name, document, arraySeats, setName, setDocument, setArraySeats, infoSession, infoDay, infoTime, setInfoSession, setInfoDay, setInfoTime } = props;
 
     const [seats, setSeats] = useState([]);
-    let arrayInfo = [];
 
     function selectSeat(id, index) {
         const selectedSeat = arraySeats.find(seat => seat.id === id);
@@ -30,8 +29,7 @@ export default function SeatsPage(props) {
         alert("Esse assento não está disponível");
     }
 
-    function sendRequest() {
-        
+    function sendRequest() {     
         const selectedIdsInfos = seats.filter((s) => {
             return arraySeats.some(selectedSeat => selectedSeat.id === s.id);
         }).map(s => s.id);
@@ -40,15 +38,13 @@ export default function SeatsPage(props) {
             alert("Você deve selecionar um assento");
             return;
         }
-        
-        
+              
         const allInfos = {
             ids: selectedIdsInfos,
             name: name,
             cpf: document
         }
 
-        console.log(allInfos)
         axios
             .post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", allInfos)
             .then((response) => {
