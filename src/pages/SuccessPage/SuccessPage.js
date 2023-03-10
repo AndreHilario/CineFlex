@@ -11,7 +11,7 @@ export default function SuccessPage(props) {
             <TextContainer data-test="movie-info">
                 <strong><p>Filme e sessão</p></strong>
                 <p>{infoSession.title}</p>
-                <p>{infoDay.weekday} {infoTime.name}</p>
+                <p>{infoDay.date} {infoTime.name}</p>
             </TextContainer>
 
             <TextContainer data-test="seats-info">
