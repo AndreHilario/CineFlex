@@ -3,7 +3,7 @@ import { PageContainer, TextContainer } from "../../style/styleSucessPage";
 
 export default function SuccessPage(props) {
 
-    const { name, document, arraySeats, infoSession, infoTime, infoDay } = props;
+    const { name, document, arraySeats, infoSession, infoTime, infoDay, backHome } = props;
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
@@ -25,7 +25,7 @@ export default function SuccessPage(props) {
                 <p>CPF: {document}</p>
             </TextContainer>
             <Link to={"/"}>
-                <button data-test="go-home-btn">Voltar para Home</button>
+                <button data-test="go-home-btn" onClick={() => backHome()}>Voltar para Home</button>
             </Link>
         </PageContainer >
     )

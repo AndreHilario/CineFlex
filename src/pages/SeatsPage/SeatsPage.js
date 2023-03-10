@@ -9,7 +9,8 @@ export default function SeatsPage(props) {
     const { name, document, arraySeats, setName, setDocument, setArraySeats, infoSession, infoDay, infoTime, setInfoSession, setInfoDay, setInfoTime } = props;
 
     const [seats, setSeats] = useState([]);
-    console.log(arraySeats)
+    let arrayInfo = [];
+
     function selectSeat(id, index) {
         const selectedSeat = arraySeats.find(seat => seat.id === id);
         if (seats[index].isAvailable) {
@@ -30,9 +31,19 @@ export default function SeatsPage(props) {
     }
 
     function sendRequest() {
+        
+        const selectedIdsInfos = seats.filter((s) => {
+            return arraySeats.some(selectedSeat => selectedSeat.id === s.id);
+        }).map(s => s.id);
 
+        if(selectedIdsInfos.length === 0){
+            alert("Você deve selecionar um assento");
+            return;
+        }
+        
+        
         const allInfos = {
-            ids: [arraySeats.index],
+            ids: selectedIdsInfos,
             name: name,
             document: document
         }
@@ -98,15 +109,15 @@ export default function SeatsPage(props) {
             </CaptionContainer>
 
             <FormContainer>
-                <form onSubmit={sendRequest}>
+                <form>
                     <p>Nome do Comprador:</p>
                     <input data-test="client-name" required type="text" placeholder="Digite seu nome..." onChange={e => setName(e.target.value)} value={name} />
 
                     <p>CPF do Comprador:</p>
-                    <input data-test="client-cpf" required type="number" placeholder="Digite seu CPF..." onChange={e => setDocument(e.target.value)} value={document} />
+                    <input data-test="client-cpf" required type="text" placeholder="Digite seu CPF..." onChange={e => setDocument(e.target.value)} value={document} />
 
                     <Link to={"/sucesso"}>
-                        <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
+                        <button data-test="book-seat-btn" onClick={() => sendRequest()}>Reservar Assento(s)</button>
                     </Link>
                 </form>
             </FormContainer>

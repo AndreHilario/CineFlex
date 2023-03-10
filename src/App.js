@@ -15,6 +15,15 @@ export default function App() {
     const [infoTime, setInfoTime] = useState([]);
     const [infoDay, setInfoDay] = useState([]);
 
+    function backHome() {
+        setArraySeats([]);
+        setName("");
+        setDocument("");
+        setInfoSession([]);
+        setInfoTime([]);
+        setInfoDay([]);
+    }
+
     return (
         <BrowserRouter>
             <NavContainer>CINEFLEX</NavContainer>
@@ -41,7 +50,8 @@ export default function App() {
                     arraySeats={arraySeats}
                     infoSession={infoSession}
                     infoTime={infoTime}
-                    infoDay={infoDay} />}>
+                    infoDay={infoDay}
+                    backHome={backHome} />}>
                 </Route>
             </Routes>
         </BrowserRouter>
