@@ -30,11 +30,11 @@ export default function SessionsPage() {
                     {sessionAvailable.map((s) => (
                         <span data-test="movie-day" key={s.id}>
                             {s.weekday} - {s.date}
-                            <ButtonsContainer data-test="showtime">
+                            <ButtonsContainer>
 
                                 {s.showtimes.map((showtime) => (
                                     <Link key={showtime.id} to={`/assentos/${showtime.id}`}>
-                                        <button>{showtime.name}</button>
+                                        <button data-test="showtime">{showtime.name}</button>
                                     </Link>
                                 ))}
 
