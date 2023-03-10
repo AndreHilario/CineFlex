@@ -45,9 +45,10 @@ export default function SeatsPage(props) {
         const allInfos = {
             ids: selectedIdsInfos,
             name: name,
-            document: document
+            cpf: document
         }
 
+        console.log(allInfos)
         axios
             .post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", allInfos)
             .then((response) => {
