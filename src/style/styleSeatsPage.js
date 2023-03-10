@@ -52,6 +52,10 @@ export const FormContainer = styled.div`
     input {
         width: calc(100vw - 60px);
     }
+    p {
+        display: flex;
+        justify-content: flex-start;
+    }
 `
 export const CaptionContainer = styled.div`
     display: flex;

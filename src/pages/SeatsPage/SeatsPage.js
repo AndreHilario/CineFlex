@@ -9,8 +9,7 @@ export default function SeatsPage(props) {
     const { name, document, arraySeats, setName, setDocument, setArraySeats, infoSession, infoDay, infoTime, setInfoSession, setInfoDay, setInfoTime } = props;
 
     const [seats, setSeats] = useState([]);
-    const [infosRequest, setInfosRequest] = useState([]);
-
+    console.log(arraySeats)
     function selectSeat(id, index) {
         const selectedSeat = arraySeats.find(seat => seat.id === id);
         if (seats[index].isAvailable) {
@@ -41,7 +40,7 @@ export default function SeatsPage(props) {
         axios
             .post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", allInfos)
             .then((response) => {
-                setInfosRequest(response)
+                console.log(response)
             })
             .catch((err) => {
                 console.log(err.response);
@@ -72,6 +71,7 @@ export default function SeatsPage(props) {
                     const status = selectedSeat ? 2 : seat.isAvailable ? 1 : 0;
                     return (
                         <SeatItem
+                            data-test="seat"
                             onClick={() => selectSeat(seat.id, index)}
                             status={status}
                             key={seat.id}
@@ -98,18 +98,20 @@ export default function SeatsPage(props) {
             </CaptionContainer>
 
             <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." onChange={e => setName(e.target.value)} value={name} />
+                <form onSubmit={sendRequest}>
+                    <p>Nome do Comprador:</p>
+                    <input data-test="client-name" required type="text" placeholder="Digite seu nome..." onChange={e => setName(e.target.value)} value={name} />
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." onChange={event => setDocument(event.target.value)} value={document} />
+                    <p>CPF do Comprador:</p>
+                    <input data-test="client-cpf" required type="number" placeholder="Digite seu CPF..." onChange={e => setDocument(e.target.value)} value={document} />
 
-                <Link to={"/sucesso"}>
-                    <button onClick={() => sendRequest()}>Reservar Assento(s)</button>
-                </Link>
+                    <Link to={"/sucesso"}>
+                        <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
+                    </Link>
+                </form>
             </FormContainer>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={infoSession.posterURL} alt="poster" />
                 </div>

@@ -28,9 +28,9 @@ export default function SessionsPage() {
             <div>
                 <SessionContainer>
                     {sessionAvailable.map((s) => (
-                        <span key={s.id}>
+                        <span data-test="movie-day" key={s.id}>
                             {s.weekday} - {s.date}
-                            <ButtonsContainer>
+                            <ButtonsContainer data-test="showtime">
 
                                 {s.showtimes.map((showtime) => (
                                     <Link key={showtime.id} to={`/assentos/${showtime.id}`}>

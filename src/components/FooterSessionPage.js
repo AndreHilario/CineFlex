@@ -22,7 +22,7 @@ export default function FooterSessionPage() {
 
 
     return (
-        <FooterContainer>
+        <FooterContainer data-test="footer">
             <div key={footerInfos.id}>
                 <img src={footerInfos.posterURL} alt="poster" />
             </div>
