@@ -30,6 +30,7 @@ export default function SeatsPage(props) {
     }
 
     function sendRequest() {     
+        
         const selectedIdsInfos = seats.filter((s) => {
             return arraySeats.some(selectedSeat => selectedSeat.id === s.id);
         }).map(s => s.id);
@@ -37,8 +38,7 @@ export default function SeatsPage(props) {
         if(selectedIdsInfos.length === 0){
             alert("Você deve selecionar um assento");
             return;
-        }
-             
+        }            
         const allInfos = {
             ids: selectedIdsInfos,
             name: name,
@@ -47,7 +47,7 @@ export default function SeatsPage(props) {
         axios
             .post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", allInfos)
             .then((response) => {
-                console.log(response.data)
+                console.log(response.data);
             })
             .catch((err) => {
                 console.log(err.response);
