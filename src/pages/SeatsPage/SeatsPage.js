@@ -1,4 +1,4 @@
-import { PageContainer, SeatsContainer, SeatItem, CaptionContainer, CaptionItem, CaptionCircle, FormContainer, FooterContainer } from "../../style/styleSeatsPage";
+import { PageContainer, SeatsContainer, SeatItem, CaptionContainer, CaptionItem, CaptionCircle, FormContainer, FooterContainer } from "./styleSeatsPage";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
@@ -38,17 +38,16 @@ export default function SeatsPage(props) {
             alert("Você deve selecionar um assento");
             return;
         }
-              
+             
         const allInfos = {
             ids: selectedIdsInfos,
             name: name,
             cpf: document
         }
-
         axios
             .post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", allInfos)
             .then((response) => {
-                console.log(response)
+                console.log(response.data)
             })
             .catch((err) => {
                 console.log(err.response);

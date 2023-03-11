@@ -1,4 +1,4 @@
-import { PageContainer, ListContainer, MovieContainer } from "../../style/styleHomePage";
+import { PageContainer, ListContainer, MovieContainer } from "./styleHomePage";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";

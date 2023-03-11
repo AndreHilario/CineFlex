@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PageContainer, TextContainer } from "../../style/styleSucessPage";
+import { PageContainer, TextContainer } from "./styleSucessPage";
 
 export default function SuccessPage(props) {
 
